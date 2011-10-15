@@ -1,0 +1,33 @@
+URxvt*font: xft:monospace:pixelsize=12
+URxvt.boldFont: xft:monospace:bold:pixelsize=12
+URxvt*scrollTtyKeypress: 1
+URxvt*scrollTtyOutput: 0
+URxvt*scrollBar_right: 1
+URxvt*scrollWithBuffer: 0
+URxvt*saveLines: 10000
+
+URxvt*background: #111111
+URxvt*foreground: #cccccc
+URxvt*cursorColor: #aaaa44
+
+/* TODO: Better colour for bright black(8) and bright white(15) */
+URxvt*color0: #111111
+URxvt*color1: #992222
+URxvt*color2: #229922
+URxvt*color3: #999922
+URxvt*color4: #222299
+URxvt*color5: #992299
+URxvt*color6: #229999
+URxvt*color7: #cccccc
+URxvt*color8: #aaaaaa
+URxvt*color9: #cc4444
+URxvt*color10: #44cc44
+URxvt*color11: #cccc44
+URxvt*color12: #4444cc
+URxvt*color13: #cc44cc
+URxvt*color14: #44cccc
+URxvt*color15: #ffffff
+
+URxvt*scrollstyle: plain
+
+URxvt*visualBell: 1

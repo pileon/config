@@ -1,0 +1,8 @@
+[user]
+	name = Joachim Pileborg
+	email = arrow@pileborg.org
+[alias]
+	br = branch
+	st = status
+	co = checkout
+	cm = commit
