@@ -64,15 +64,23 @@ function parse_hg_branch() {
     hg branch 2>&1 | sed -e '/^abort/d' -e 's/.*/(hg:\0)/'
 }
 
+function parse_svn_branch() {
+    svn info 2>&1 | grep URL: | sed -e 's%\(.*/branches/\)\(.*\)%(svn:\2)%'
+}
+
 # TODO: Function to parse Bazaar branch names
-# TODO: Function to parse Subversion branch names
 # TODO: Function to parse CVS branch names
+
+function parse_scm_branch() {
+    parse_git_branch; parse_hg_branch; parse_svn_branch
+}
 
 if [ "$color_prompt" = yes ]; then
     # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    PS1='\[\033[1m\]$(prompt_error_code)$(parse_git_branch)$(parse_hg_branch)\[\033[0m\]${debian_chroot:+($debian_chroot)}[\[\033[01;34m\]\w\[\033[0m\]]\$ '
+    PS1='\[\033[1m\]$(prompt_error_code)$(parse_scm_branch)\[\033[0m\]${debian_chroot:+($debian_chroot)}[\[\033[01;34m\]\w\[\033[0m\]]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1='$(prompt_error_code)$(parse_scm_branch)${debian_chroot:+($debian_chroot)}[\w]\$ '
 fi
 unset color_prompt force_color_prompt
 
