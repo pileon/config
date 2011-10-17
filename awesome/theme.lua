@@ -15,9 +15,10 @@ theme.wallpaper_cmd = { 'xsetroot -solid "#333333"' }
 
 theme.border_width  = "1"
 
-theme.border_focus  = "#6F6FBF"
+-- theme.border_focus  = "#6F6FBF"
+theme.border_focus  = "#0066ff"
 
-theme.titlebar_bg_focus  = "#6F6FBF"
-theme.titlebar_bg_normal = "#3F3F3F"
+theme.titlebar_bg_focus  = "#0066ff"
+theme.titlebar_bg_normal = "#3f3f3f"
 
 return theme

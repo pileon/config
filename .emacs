@@ -643,6 +643,7 @@ x   )
 (define-key global-map "\C-c\C-c" 'comment-region)
 (define-key global-map "\C-c\C-u" 'uncomment-region)
 (define-key global-map "\C-cu" 'uncomment-region)
+(define-key global-map "\C-cc" 'comment-region)
 
 ;; TODO: Make sure the server is not started before attempting to start it
 ;(server-start)

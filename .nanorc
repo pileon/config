@@ -16,4 +16,4 @@ set tabstospaces
 #include /usr/share/nano/python.nanorc
 #include /usr/share/nano/sh.nanorc
 
-include /home/arrow/.nano.d/lua.nanorc
+include ~/.nano.d/lua.nanorc

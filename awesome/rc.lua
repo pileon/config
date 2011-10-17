@@ -61,17 +61,17 @@ tags = {}
 
 -- First screen
 tags[1] = awful.tag(
-    { "web", "emacs", "terminals", "games", "vbox", 6, 7, 8, "trans" },
+    { "emacs", "web", "mail", "gitk", "vbox", "terminals", 7, 8, 9 },
     1,
-    { layouts[11], layouts[11], layouts[ 2], layouts[11], layouts[11],
-	  layouts[ 1], layouts[ 1], layouts[ 1], layouts[11] }
+    { layouts[11], layouts[11], layouts[11], layouts[ 7], layouts[ 7],
+	  layouts[ 5], layouts[ 1], layouts[ 1], layouts[ 1] }
 )
 
 -- Second screen
 tags[2] = awful.tag(
-    { "mail", "build", "terminals", "spotify", 5, 6, 7, 8, "top" },
+    { "build", "web", "calendar", "terminals", "spotify", 6, 7, 8, "top" },
     2,
-    { layouts[11], layouts[ 2], layouts[ 2], layouts[11], layouts[ 1],
+    { layouts[ 2], layouts[11], layouts[11], layouts[ 2], layouts[11],
       layouts[ 1], layouts[ 1], layouts[ 1], layouts[11] }
 )
 -- }}}
@@ -242,9 +242,6 @@ function get_mail_count()
     local _, _, messages = mails:find("MESSAGES ([0-9]+)")
     local _, _, unread   = mails:find("UNSEEN ([0-9]+)")
 
-    if messages == nil then messages = '<span color="#ffa6a6">0</span>' end
-    if unread   == nil then unread   = '<span color="#ffa6a6">0</span>' end
-
     if unread ~= "0" then
         unread = '<span color="#a6e6a6" weight="bold">'..unread..'</span>'
     end
@@ -255,7 +252,7 @@ end
 --mailwidget.text = get_mail_count()
 --mailwidget:buttons(awful.util.table.join(
 --					  awful.button({ }, 1, function () mailwidget.text = get_mail_count() end)
---			  ))
+--              ))
 --mailwidgettimer = timer({ timeout = 60 })
 --mailwidgettimer:add_signal("timeout", function() mailwidget.text = get_mail_count() end)
 --mailwidgettimer:start()
@@ -393,19 +390,13 @@ cpuwidget:set_gradient_colors({ "#ff7676", "#e6a6a6", "#b6b6a6", "#a6e6a6", "#a6
 cpuwidget:set_gradient_angle(0)
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 2)
 
---sunicon = widget({ type = "imagebox" })
---sunicon.image = "http://api.yr.no/weatherapi/weathericon/1.0/?symbol=1;content_type=image/png"
-weatherwidget = widget({ type = "textbox" })
-vicious.register(weatherwidget, vicious.widgets.weather,
-				 "☁ ${sky} ${tempc}°", 60, "ESMS")
-
 home_p = awful.widget.progressbar()
 home_p:set_width(8)
 home_p:set_vertical(true)
 home_p:set_background_color("#494B4F")
 home_p:set_border_color(nil)
 home_p:set_color("#a6e6a6")
-home_p:set_gradient_colors({ "#ff7676", "#e6a6a6", "#b6b6a6", "#a6c6a6", "#a6e6a6" })
+home_p:set_gradient_colors({ "#ff7676", "#e6a6a6", "#b6b6a6", "#a6e6a6", "#a6faa6" })
 vicious.register(home_p, vicious.widgets.fs,
                  function (w, a)
                      return (100 - a["{/home used_p}"])
@@ -472,13 +463,6 @@ mytasklist.buttons = awful.util.table.join(
                                               if client.focus then client.focus:raise() end
                                           end))
 
--- Testing another weather widget
---require("weather")
---ww1 = widget({ type = "textbox" })
---ww2 = widget({ type = "imagebox" })
---weather.addWeather(ww1, "malmo")
---weather.addWeather(ww2, "malmo")
-
 myweatherwidget = myweather.create("malmö")
 
 
@@ -535,9 +519,9 @@ for s = 1, screen.count() do
         home_a,
         separator2,
         myweatherwidget:get_widgets(),
-        --separator2,
+		--separator2,
         --mailwidget,
-        separator,
+		separator,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -609,14 +593,7 @@ globalkeys = awful.util.table.join(
                                    mypromptbox[mouse.screen].widget,
                                    awful.util.eval, nil,
                                    awful.util.getdir("cache") .. "/history_eval")
-              end),
-
-    awful.key({        }, "XF86AudioRaiseVolume", function() awful.util.spawn("amixer -q set Master 2+", false) end),
-    awful.key({        }, "XF86AudioLowerVolume", function() awful.util.spawn("amixer -q set Master 2-", false) end),
-    awful.key({        }, "XF86AudioMute"       , function() awful.util.spawn("amixer -q set Master toggle", false) end),
-    awful.key({        }, "XF86HomePage"        , function() awful.tag.viewonly(tags[1][1]) end),
-    awful.key({        }, "XF86Mail"            , function() awful.tag.viewonly(tags[2][1]) end)
-
+              end)
 )
 
 clientkeys = awful.util.table.join(
@@ -694,34 +671,43 @@ awful.rules.rules = {
                      buttons = clientbuttons,
 					 float = true } },
 
-    { rule = { class = "Chromium-browser" },
-      properties = { tag = tags[1][1] } },
-
-    { rule = { class = "Firefox" },
-      properties = { tag = tags[1][1] } },
+    { rule = { class = "Google-chrome (/home/joachimp/.config/google-chrome)" },
+      properties = { tag = tags[2][2] } },
+    { rule = { class = "Google-chrome (/home/joachimp/.config/google-chrome-private)" },
+      properties = { tag = tags[1][2] } },
 
     { rule = { class = "Spotify" },
-      properties = { tag = tags[2][4] } },
+      properties = { tag = tags[2][5] } },
 
     { rule = { class = "Emacs", instance = "emacs" },
-      properties = { tag = tags[1][2] } },
-    -- { rule = { class = "Emacs", instance = "Calendar" },
-    --   properties = { tag = tags[2][3] } },
+      properties = { tag = tags[1][1] } },
+    { rule = { class = "Emacs", instance = "Calendar" },
+      properties = { tag = tags[2][3] } },
 
-    { rule = { class = "URxvt", instance = "build" },
-      properties = { tag = tags[2][2] } },
-
-    { rule = { class = "URxvt", instance = "terminal1" },
+    { rule = { class = "Evolution" },
       properties = { tag = tags[1][3] } },
 
-    { rule = { class = "URxvt", instance = "terminal2" },
-      properties = { tag = tags[2][3] } },
+    { rule = { class = "Gitk" },
+      properties = { tag = tags[1][4] } },
+    { rule = { class = "Gitg" },
+      properties = { tag = tags[1][4] } },
+    { rule = { class = "Hgtk" },
+      properties = { tag = tags[1][4] } },
+
+    { rule = { class = "URxvt", instance = "build" },
+      properties = { tag = tags[2][1] } },
+
+    { rule = { class = "URxvt", instance = "terminal" },
+      properties = { tag = tags[2][4] } },
 
     { rule = { class = "URxvt", instance = "top" },
       properties = { tag = tags[2][9] } },
 
-    { rule = { class = "Thunderbird" },
-      properties = { tag = tags[2][1] } },
+    { rule = { class = "URxvt", instance = "mail" },
+      properties = { tag = tags[1][3] } },
+
+    { rule = { class = "Icedove" },
+      properties = { tag = tags[1][3] } },
 
     { rule = { class = "URxvt", instance = "normal" },
       properties = { float = true } },
@@ -729,13 +715,6 @@ awful.rules.rules = {
     { rule = { class = "VirtualBox", instance = "Qt-subapplication" },
       properties = { tag = tags[1][5] } },
 
-    { rule = { class = "Transmission" },
-      properties = { tag = tags[1][9] } },
-
-    { rule = { class = "Sol" },
-      properties = { tag = tags[1][4] } },
-    { rule = { class = "Mahjongg" },
-      properties = { tag = tags[1][4] } },
 }
 -- }}}
 

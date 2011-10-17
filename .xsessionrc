@@ -1,24 +1,24 @@
 echo "running .xsessionrc"
 
-#echo "xmodmap..."
-#SYSMODMAP="/etc/X11/Xmodmap"
-#USRMODMAP="$HOME/.Xmodmap"
+echo "xmodmap..."
+SYSMODMAP="/etc/X11/Xmodmap"
+USRMODMAP="$HOME/.Xmodmap"
 
-#if [ -x /usr/bin/X11/xmodmap ]; then
-#    if [ -f "$SYSMODMAP" ]; then
-#        xmodmap "$SYSMODMAP"
-#    fi
-#    if [ -f "$USRMODMAP" ]; then
-#        xmodmap "$USRMODMAP"
-#    fi
-#fi
+if [ -x /usr/bin/X11/xmodmap ]; then
+    if [ -f "$SYSMODMAP" ]; then
+        xmodmap "$SYSMODMAP"
+    fi
+    if [ -f "$USRMODMAP" ]; then
+        xmodmap "$USRMODMAP"
+    fi
+fi
 
-#echo "xrdb..."
-#if [ -x /usr/bin/xrdb ]; then
-#    if [ -f "$HOME/.Xresources" ]; then
-#        xrdb -merge $HOME/.Xresources
-#    fi
-#fi
+echo "xrdb..."
+if [ -x /usr/bin/xrdb ]; then
+    if [ -f "$HOME/.Xresources" ]; then
+        xrdb -merge $HOME/.Xresources
+    fi
+fi
 
 echo "setting gtk+ theme..."
 gtk-theme-switch2 /usr/share/themes/Mist
@@ -32,41 +32,40 @@ exec urxvt -name build &
 exec urxvt -name build &
 
 echo "starting other terminals..."
-exec urxvt -name terminal1 &
-exec urxvt -name terminal1 &
-exec urxvt -name terminal1 &
-
-exec urxvt -name terminal2 &
-exec urxvt -name terminal2 &
-exec urxvt -name terminal2 &
+exec urxvt -name terminal &
+exec urxvt -name terminal &
+exec urxvt -name terminal &
 
 echo "starting top..."
 exec urxvt -sb -name top -e "htop" &
 
-echo "starting thunderbird..."
-thunderbird >/dev/null 2>&1 &
+# echo "starting alpine..."
+# exec urxvt -sb -name mail -e "alpine" &
 
-echo "starting google chromium..."
-exec chromium-browser >/dev/null 2>&1 &
+echo "starting icedove..."
+exec icedove >/dev/null 2>&1 &
 
-echo "starting games..."
-sol >/dev/null 2>&1 &
-mahjongg >/dev/null 2>&1 &
+echo "starting chromes..."
+exec google-chrome --user-data-dir=$HOME/.config/google-chrome         \
+	--class=Google-chrome --name="public"  --proxy-server=wwwproxy.se.axis.com:3128 >/dev/null 2>&1 &
+exec google-chrome --user-data-dir=$HOME/.config/google-chrome-private \
+	--class=Google-chrome --name="private" --proxy-server=wwwproxy.se.axis.com:3128 >/dev/null 2>&1 &
 
 echo "starting emacs..."
 exec emacs &
 
-echo "starting spotify..."
-exec spotify >/dev/null 2>&1 &
+# echo "starting spotify..."
+# exec spotify >/dev/null 2>&1 &
 
-# echo "starting virtualbox..."
-# exec virtualbox >/dev/null 2>&1 &
-
-echo "starting transmission..."
-exec transmission-gtk >/dev/null 2>&1 &
+echo "starting virtualbox..."
+exec virtualbox >/dev/null 2>&1 &
 
 echo "starting update notification daemon..."
 exec update-notifier &
+
+# Does not work properly with the awesome systray
+# echo "starting mail notofication daemon..."
+# exec mail-notification >/dev/null 2>&1 &
 
 echo "all done!"
 echo ""

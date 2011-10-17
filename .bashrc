@@ -64,6 +64,10 @@ function parse_hg_branch() {
     hg branch 2>&1 | sed -e '/^abort/d' -e 's/.*/(hg:\0)/'
 }
 
+# TODO: Function to parse Bazaar branch names
+# TODO: Function to parse Subversion branch names
+# TODO: Function to parse CVS branch names
+
 if [ "$color_prompt" = yes ]; then
     # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
     PS1='\[\033[1m\]$(prompt_error_code)$(parse_git_branch)$(parse_hg_branch)\[\033[0m\]${debian_chroot:+($debian_chroot)}[\[\033[01;34m\]\w\[\033[0m\]]\$ '
@@ -90,8 +94,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f $HOME/.bash_aliases ]; then
+    . $HOME/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -111,7 +115,38 @@ __expand_tilde_by_ref()
     return 0
 }
 
+# TODO: Put all environment variable definition in .profile?
+
 export LESSCHARSET="utf-8"
 export LESSOPEN="| /usr/bin/lesspipe %s";
 export LESSCLOSE="/usr/bin/lesspipe %s %s";
 export LESS=" -M -R "
+
+export EDITOR=nano
+export GIT_EDITOR=nano
+
+######################################################################
+# Axis-specific configuration
+
+export CVS_RSH=ssh
+export CVSROOT=":ext:dev-cvs.se.axis.com:/usr/local/cvs/linux"
+export AXIS_DEVELOPER=y
+
+# TODO: Dynamic completion?
+complete -W "`find $HOME/products/*/* -maxdepth 0 -type d | cut -d '/' -f 5-6`" chp
+
+function chp() {
+    [ -d $HOME/products/$1 ] || (echo "No such project: $1"; return 1)
+    cd $HOME/products/$1 || return 1
+
+    # TODO: Clean up the PATH (in a bash-compatible way, not zsh'ish like this
+    #newpath=()
+    #for p in $path; do
+    #  (  echo $p | grep -q $1 ) || newpath=($newpath $p)
+    #done
+    #export PATH=${(j.:.)newpath}
+
+    export AXIS_TOP_DIR=$HOME/products/$1
+    [ -f ./init_env ] && source ./init_env
+    export PATH=$PATH:$AXIS_TOP_DIR/build_env/bin
+}

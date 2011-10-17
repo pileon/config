@@ -12,7 +12,7 @@
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
     if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
+        . "$HOME/.bashrc"
     fi
 fi
 
@@ -20,8 +20,13 @@ fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin
+export PATH
+
 export LANGUAGE="en_US:en"
 export LC_MESSAGES="en_US.UTF-8"
 export LC_CTYPE="sv_SE.UTF-8"
 export LC_COLLATE="en_US.UTF-8"
 export LANG="sv_SE.UTF-8"
+
+export http_proxy="http://wwwproxy.se.axis.se:3128/"
