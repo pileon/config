@@ -29,4 +29,4 @@ export LC_CTYPE="sv_SE.UTF-8"
 export LC_COLLATE="en_US.UTF-8"
 export LANG="sv_SE.UTF-8"
 
-export http_proxy="http://wwwproxy.se.axis.se:3128/"
+export http_proxy="http://wwwproxy.se.axis.com:3128/"
