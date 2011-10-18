@@ -69,10 +69,12 @@ function parse_svn_branch() {
 }
 
 function parse_cvs_branch() {
-    BRANCH=`cat CVS/Tag 2>/dev/null | cut -c 2- ` ; if [ "$BRANCH" != "" ] ; then echo " (cvs:$BRANCH)" ; fi
+    BRANCH=`cat CVS/Tag 2>/dev/null | cut -c 2- ` ; if [ "$BRANCH" != "" ] ; then echo "(cvs:$BRANCH)" ; fi
 }
 
-# TODO: Function to parse Bazaar branch names
+function parse_bzr_branch() {
+    echo "(bzr:`bzr nick`)"
+}
 
 function parse_scm_branch() {
     if [ -e .svn ]; then
@@ -81,6 +83,8 @@ function parse_scm_branch() {
         parse_git_branch
     elif [ -e .hg ]; then
         parse_hg_branch
+    elif [ -e .bzr ]; then
+        parse_bzr_branch
     elif [ -e CVS ]; then
         parse_cvs_branch
     fi
