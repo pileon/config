@@ -75,12 +75,16 @@ function parse_scm_branch() {
     parse_git_branch; parse_hg_branch; parse_svn_branch
 }
 
+function prompt_path() {
+    echo $PWD | grep -q "$HOME/products/camera/" && echo "${PWD#$HOME/products/camera/}" || echo "${PWD/$HOME/~}"
+}
+
 if [ "$color_prompt" = yes ]; then
     # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    PS1='\[\033[1m\]$(prompt_error_code)$(parse_scm_branch)\[\033[0m\]${debian_chroot:+($debian_chroot)}[\[\033[01;34m\]\w\[\033[0m\]]\$ '
+    PS1='\[\033[1m\]$(prompt_error_code)$(parse_scm_branch)\[\033[0m\]${debian_chroot:+($debian_chroot)}[\[\033[01;34m\]$(prompt_path)\[\033[0m\]]\$ '
 else
     # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    PS1='$(prompt_error_code)$(parse_scm_branch)${debian_chroot:+($debian_chroot)}[\w]\$ '
+    PS1='$(prompt_error_code)$(parse_scm_branch)${debian_chroot:+($debian_chroot)}[$(prompt_path)]\$ '
 fi
 unset color_prompt force_color_prompt
 
