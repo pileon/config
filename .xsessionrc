@@ -39,11 +39,8 @@ exec urxvt -name terminal &
 echo "starting top..."
 exec urxvt -sb -name top -e "htop" &
 
-# echo "starting alpine..."
-# exec urxvt -sb -name mail -e "alpine" &
-
-echo "starting icedove..."
-exec icedove >/dev/null 2>&1 &
+echo "starting evolution..."
+exec evolution >/dev/null 2>&1 &
 
 echo "starting chromes..."
 exec google-chrome --user-data-dir=$HOME/.config/google-chrome         \
