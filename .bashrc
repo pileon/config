@@ -68,11 +68,22 @@ function parse_svn_branch() {
     svn info 2>&1 | grep URL: | sed -e 's%\(.*/branches/\)\(.*\)%(svn:\2)%'
 }
 
+function parse_cvs_branch() {
+    BRANCH=`cat CVS/Tag 2>/dev/null | cut -c 2- ` ; if [ "$BRANCH" != "" ] ; then echo " (cvs:$BRANCH)" ; fi
+}
+
 # TODO: Function to parse Bazaar branch names
-# TODO: Function to parse CVS branch names
 
 function parse_scm_branch() {
-    parse_git_branch; parse_hg_branch; parse_svn_branch
+    if [ -e .svn ]; then
+        parse_svn_branch
+    elif [ -e .git ]; then
+        parse_git_branch
+    elif [ -e .hg ]; then
+        parse_hg_branch
+    elif [ -e CVS ]; then
+        parse_cvs_branch
+    fi
 }
 
 function prompt_path() {
