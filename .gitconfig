@@ -6,3 +6,9 @@
 	st = status
 	co = checkout
 	cm = commit
+[color]
+	ui = true
+	branch = true
+	diff = true
+	interactive = true
+	status = true
