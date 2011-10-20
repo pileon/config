@@ -721,7 +721,7 @@ awful.rules.rules = {
       properties = { tag = tags[2][9] } },
 
     { rule = { class = "Thunderbird" },
-      properties = { tag = tags[2][1] } },
+      properties = { tag = tags[2][1], maximized_vertical = false, maximized_horizontal = false } },
 
     { rule = { class = "URxvt", instance = "normal" },
       properties = { float = true } },
@@ -733,7 +733,8 @@ awful.rules.rules = {
       properties = { tag = tags[1][9] } },
 
     { rule = { class = "Sol" },
-      properties = { tag = tags[1][4] } },
+      properties = { tag = tags[1][4], maximized_vertical = false, maximized_horizontal = false } },
+
     { rule = { class = "Mahjongg" },
       properties = { tag = tags[1][4] } },
 }
