@@ -112,7 +112,7 @@ local function get_weather(data)
     local weather_wind_speed_end = page:find('<img', weather_wind_speed_start)
     weather_wind_speed_end = weather_wind_speed_end - 1
     local weather_wind_speed = ltrim(rtrim(page:sub(weather_wind_speed_start, weather_wind_speed_end)))
-    -- TODO: Remove the "m/s"?
+    weather_wind_speed = weather_wind_speed:sub(0, -4)  -- Remove the "m/s"?
 
     local _, weather_wind_dir_icon_start = page:find('<img alt="vindpil" src="', weather_wind_speed_end)
     weather_wind_dir_icon_start = weather_wind_dir_icon_start + 1
@@ -154,19 +154,20 @@ local function get_weather(data)
     end
     data[2].temp.text       = '<span font="monospace">'..weather_temp..'</span>'
 
-    -- weather_wind_speed = tonumber(weather_wind_speed)
-    -- if weather_wind_speed ~= nil then
-    --     if tonumber(weather_wind_speed) >= 20 then
-    --         data[2].wind_speed.text = '<span font="monospace" color="#faa6a6">'..weather_wind_speed..'</span>'
-    --     elseif tonumber(weather_wind_speed) >= 10 then
-    --         data[2].wind_speed.text = '<span font="monospace" color="#e6a6a6">'..weather_wind_speed..'</span>'
-    --     elseif tonumber(weather_wind_speed) >= 3 then
-    --         data[2].wind_speed.text = '<span font="monospace">'..weather_wind_speed..'</span>'
-    --     else
-    --         data[2].wind_speed.text = '<span font="monospace" color="#a6e6a6">'..weather_wind_speed..'</span>'
-    --     end
-    -- end
-    data[2].wind_speed.text = '<span font="monospace">'..weather_wind_speed..'</span>'
+    weather_wind_speed_num = tonumber(weather_wind_speed)
+    if weather_wind_speed_num ~= nil then
+        if weather_wind_speed_num >= 20 then
+            data[2].wind_speed.text = '<span font="monospace" color="#faa6a6">'..weather_wind_speed_num..' m/s</span>'
+        elseif weather_wind_speed_num >= 10 then
+            data[2].wind_speed.text = '<span font="monospace" color="#e6a6a6">'..weather_wind_speed_num..' m/s</span>'
+        elseif weather_wind_speed_num >= 3 then
+            data[2].wind_speed.text = '<span font="monospace">'..weather_wind_speed_num..' m/s</span>'
+        else
+            data[2].wind_speed.text = '<span font="monospace" color="#a6e6a6">'..weather_wind_speed_num..' m/s</span>'
+        end
+    else
+        data[2].wind_speed.text = '<span font="monospace">'..weather_wind_speed..' m/s</span>'
+    end
 
     if weather_wind_dir_icon ~= nil then
         data[2].wind_dir.image  = capi.image(weather_wind_dir_icon)
