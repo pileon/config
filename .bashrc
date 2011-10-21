@@ -65,7 +65,15 @@ function parse_hg_branch() {
 }
 
 function parse_svn_branch() {
-    svn info 2>&1 | grep URL: | sed -e 's%\(.*/branches/\)\(.*\)%(svn:\2)%'
+    # In a branch?
+    svn info 2>&1 | grep ^URL: | grep "/branches/" >/dev/null 2>&1 && 
+        svn info 2>&1 | grep ^URL: | grep "/branches/" | sed -e 's%^.*/branches/\([^/]\+\)\(/.*\)\?$%(svn:\1)%' && return
+
+    # In the trunk?
+    svn info 2>&1 | grep ^URL: | grep "/trunk" >/dev/null 2>&1 && echo "(svn:trunk)" && return
+
+    # In subversion!
+    echo "(svn)"
 }
 
 function parse_cvs_branch() {
@@ -77,17 +85,15 @@ function parse_bzr_branch() {
 }
 
 function parse_scm_branch() {
-    if [ -e .svn ]; then
-        parse_svn_branch
-    elif [ -e .git ]; then
-        parse_git_branch
-    elif [ -e .hg ]; then
-        parse_hg_branch
-    elif [ -e .bzr ]; then
-        parse_bzr_branch
-    elif [ -e CVS ]; then
-        parse_cvs_branch
-    fi
+    [ -e CVS ] && parse_cvs_branch && return
+
+    git status --porcelain >/dev/null 2>&1 && parse_git_branch && return
+
+    [ -e .svn ] && parse_svn_branch && return
+
+    bzr status -q 2>/dev/null && parse_bzr_branch && return
+
+    hg status >/dev/null 2>&1 && parse_hg_branch && return
 }
 
 function prompt_path() {
