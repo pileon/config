@@ -19,15 +19,17 @@
 --       Need to be able to handle XML properly then
 
 local capi = {
-    widget  = require('widget'),
-    image   = require("image"),
-    timer   = require("timer")
+    widget  = widget,
+    image   = image,
+    timer   = timer
 }
 local awful   = require("awful")
 local naughty = require("naughty")
 
 local io      = require("io")
 local string  = require("string")
+
+local tonumber = tonumber
 
 module("myweather")
 
@@ -151,7 +153,21 @@ local function get_weather(data)
         data[2].weather.image   = capi.image(weather_icon)
     end
     data[2].temp.text       = '<span font="monospace">'..weather_temp..'</span>'
+
+    -- weather_wind_speed = tonumber(weather_wind_speed)
+    -- if weather_wind_speed ~= nil then
+    --     if tonumber(weather_wind_speed) >= 20 then
+    --         data[2].wind_speed.text = '<span font="monospace" color="#faa6a6">'..weather_wind_speed..'</span>'
+    --     elseif tonumber(weather_wind_speed) >= 10 then
+    --         data[2].wind_speed.text = '<span font="monospace" color="#e6a6a6">'..weather_wind_speed..'</span>'
+    --     elseif tonumber(weather_wind_speed) >= 3 then
+    --         data[2].wind_speed.text = '<span font="monospace">'..weather_wind_speed..'</span>'
+    --     else
+    --         data[2].wind_speed.text = '<span font="monospace" color="#a6e6a6">'..weather_wind_speed..'</span>'
+    --     end
+    -- end
     data[2].wind_speed.text = '<span font="monospace">'..weather_wind_speed..'</span>'
+
     if weather_wind_dir_icon ~= nil then
         data[2].wind_dir.image  = capi.image(weather_wind_dir_icon)
     end
