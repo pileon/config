@@ -65,14 +65,35 @@ function parse_hg_branch() {
 }
 
 function parse_svn_branch() {
-    svn info 2>&1 | grep URL: | sed -e 's%\(.*/branches/\)\(.*\)%(svn:\2)%'
+    # In a branch?
+    svn info 2>&1 | grep ^URL: | grep "/branches/" >/dev/null 2>&1 && 
+        svn info 2>&1 | grep ^URL: | grep "/branches/" | sed -e 's%^.*/branches/\([^/]\+\)\(/.*\)\?$%(svn:\1)%' && return
+
+    # In the trunk?
+    svn info 2>&1 | grep ^URL: | grep "/trunk" >/dev/null 2>&1 && echo "(svn:trunk)" && return
+
+    # In subversion!
+    echo "(svn)"
 }
 
-# TODO: Function to parse Bazaar branch names
-# TODO: Function to parse CVS branch names
+function parse_cvs_branch() {
+    BRANCH=`cat CVS/Tag 2>/dev/null | cut -c 2- ` ; if [ "$BRANCH" != "" ] ; then echo "(cvs:$BRANCH)" ; fi
+}
+
+function parse_bzr_branch() {
+    echo "(bzr:`bzr nick`)"
+}
 
 function parse_scm_branch() {
-    parse_git_branch; parse_hg_branch; parse_svn_branch
+    [ -e CVS ] && parse_cvs_branch && return
+
+    git status --porcelain >/dev/null 2>&1 && parse_git_branch && return
+
+    [ -e .svn ] && parse_svn_branch && return
+
+    bzr status -q 2>/dev/null && parse_bzr_branch && return
+
+    hg status >/dev/null 2>&1 && parse_hg_branch && return
 }
 
 if [ "$color_prompt" = yes ]; then
