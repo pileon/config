@@ -151,7 +151,7 @@ __expand_tilde_by_ref()
 # TODO: Put all environment variable definition in .profile?
 
 export LESSCHARSET="utf-8"
-export LESSOPEN="| /usr/bin/lesspipe %s";
+export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s";
 export LESSCLOSE="/usr/bin/lesspipe %s %s";
 export LESS=" -M -R "
 
