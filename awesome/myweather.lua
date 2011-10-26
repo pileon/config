@@ -29,6 +29,8 @@ local naughty = require("naughty")
 local io      = require("io")
 local string  = require("string")
 
+local tonumber = tonumber
+
 module("myweather")
 
 -- remove leading whitespace from string.
