@@ -671,9 +671,9 @@ awful.rules.rules = {
                      buttons = clientbuttons,
 					 float = true } },
 
-    { rule = { class = "Google-chrome (/home/joachimp/.config/google-chrome)" },
+    { rule = { class = "Google-chrome", instance = "Google-chrome (/home/joachimp/.config/google-chrome)" },
       properties = { tag = tags[2][2] } },
-    { rule = { class = "Google-chrome (/home/joachimp/.config/google-chrome-private)" },
+    { rule = { class = "Google-chrome", instance = "Google-chrome (/home/joachimp/.config/google-chrome-private)" },
       properties = { tag = tags[1][2] } },
 
     { rule = { class = "Spotify" },
