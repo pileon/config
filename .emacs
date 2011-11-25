@@ -292,9 +292,9 @@
   (interactive)
   (insert
    (concat
-	"/* -*- coding: utf-8 -*- */\n"
+	"// -*- coding: utf-8 -*-\n"
     "/* *******************************************************************\n"
-	"* File:                                                Part of spotd *\n"
+	"* File:                                            Part of The Raven *\n"
 	"*                                                                    *\n"
 	"* Copyright (C) 2011, Joachim Pileborg and individual contributors.  *\n"
 	"* All rights reserved.                                               *\n"
@@ -329,15 +329,15 @@
 	"*                                                                    *\n"
 	"******************************************************************* */\n"
 	"\n"
-	"#include \"spotd.h\"\n"
+	"#include \"raven.h\"\n"
 	"\n"
-	"namespace spotd {\n"
-	"\n"
-	"/* **************************************************************** */\n"
+	"namespace raven {\n"
 	"\n"
 	"/* **************************************************************** */\n"
 	"\n"
-	"} // namespace spotd\n"
+	"/* **************************************************************** */\n"
+	"\n"
+	"} // namespace raven\n"
     )
    )
   )
@@ -347,11 +347,11 @@
   (interactive)
   (insert
    (concat
-	"/* -*- mode: C++; coding: utf-8 -*- */\n"
+	"// -*- mode: C++; coding: utf-8 -*-\n"
 	"#ifndef ___H__\n"
 	"#define ___H__ 1\n"
     "/* *******************************************************************\n"
-	"* File:                                                Part of spotd *\n"
+	"* File:                                            Part of The Raven *\n"
 	"*                                                                    *\n"
 	"* Copyright (C) 2011, Joachim Pileborg and individual contributors.  *\n"
 	"* All rights reserved.                                               *\n"
@@ -386,15 +386,15 @@
 	"*                                                                    *\n"
 	"******************************************************************* */\n"
 	"\n"
-	"namespace spotd {\n"
+	"namespace raven {\n"
 	"\n"
     "/* **************************************************************** */\n"
 	"\n"
     "/* **************************************************************** */\n"
 	"\n"
-	"} // namespace spotd\n"
+	"} // namespace raven\n"
 	"\n"
-	"#endif /* ___H__ */\n"
+	"#endif // ___H__\n"
     )
    )
   )
