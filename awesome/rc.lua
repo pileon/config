@@ -707,6 +707,8 @@ awful.rules.rules = {
       properties = { tag = tags[1][2] } },
     -- { rule = { class = "Emacs", instance = "Calendar" },
     --   properties = { tag = tags[2][3] } },
+    { rule = { class = "Sublime" },
+      properties = { tag = tags[1][2] } },
 
     { rule = { class = "URxvt", instance = "build" },
       properties = { tag = tags[2][2] } },

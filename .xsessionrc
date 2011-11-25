@@ -53,8 +53,10 @@ echo "starting games..."
 sol >/dev/null 2>&1 &
 mahjongg >/dev/null 2>&1 &
 
-echo "starting emacs..."
-exec emacs &
+# echo "starting emacs..."
+# exec emacs &
+echo "starting sublime text..."
+exec sublime >/dev/null 2>&1 &
 
 echo "starting spotify..."
 exec spotify >/dev/null 2>&1 &
